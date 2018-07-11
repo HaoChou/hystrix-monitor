@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Copyright 2013 Netflix, Inc.
@@ -33,8 +35,10 @@ import org.apache.commons.io.IOUtils;
  *
  */
 public class EurekaInfoServlet extends HttpServlet {
-	
-	 private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = LoggerFactory.getLogger(EurekaInfoServlet.class);
+
+	private static final long serialVersionUID = 1L;
 	 
 	 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 
@@ -43,9 +47,14 @@ public class EurekaInfoServlet extends HttpServlet {
 		 
 		 try{
 			 response.setContentType("application/xml");
-			 response.setHeader("Content-Encoding", "gzip");
+			 //response.setHeader("Content-Encoding", "gzip");
+			 //加上上面这行代码会报 broken pipe
+			 //见 https://github.com/Netflix-Skunkworks/hystrix-dashboard/issues/8
+
 			 IOUtils.copy( UrlUtils.readXmlInputStream(uri) ,response.getOutputStream());
+
 		 }catch(Exception e){
+			 logger.error("error",e);
 			 response.getOutputStream().write(("Error. You need supply a valid eureka URL. Ex: " + e + "").getBytes()); 
 		 }
 		 
