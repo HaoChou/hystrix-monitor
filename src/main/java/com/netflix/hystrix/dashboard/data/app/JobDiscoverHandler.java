@@ -1,4 +1,4 @@
-package com.netflix.hystrix.dashboard.data.job;
+package com.netflix.hystrix.dashboard.data.app;
 
 /**
  * @author zhou

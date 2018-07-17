@@ -1,7 +1,7 @@
-package com.netflix.hystrix.dashboard.data.job;
+package com.netflix.hystrix.dashboard.data.app;
 
 /**
- * 这里指的任务（job）是指 从微服务获取hystrix.stream的任务
+ * 这里指的任务（app）是指 从微服务获取hystrix.stream的任务
  * @author zhou
  * Created on 2018/7/14
  */

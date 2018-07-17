@@ -1,4 +1,4 @@
-package com.netflix.hystrix.dashboard.data.job;
+package com.netflix.hystrix.dashboard.data.app;
 
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.dashboard.config.MyMonitorConfig;
@@ -105,52 +105,6 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    private class EurekaAppInfo {
-        private String appName;
-        private String ipAddr;
-        private Integer port;
-        private String hystrixStreamUri;
-
-        public EurekaAppInfo(String appName, String ipAddr, Integer port, String hystrixStreamUri) {
-            this.appName = appName;
-            this.ipAddr = ipAddr;
-            this.port = port;
-            this.hystrixStreamUri = hystrixStreamUri;
-        }
-
-        public String getAppName() {
-            return appName;
-        }
-
-        public void setAppName(String appName) {
-            this.appName = appName;
-        }
-
-        public String getIpAddr() {
-            return ipAddr;
-        }
-
-        public void setIpAddr(String ipAddr) {
-            this.ipAddr = ipAddr;
-        }
-
-        public Integer getPort() {
-            return port;
-        }
-
-        public void setPort(Integer port) {
-            this.port = port;
-        }
-
-        public String getHystrixStreamUri() {
-            return hystrixStreamUri;
-        }
-
-        public void setHystrixStreamUri(String hystrixStreamUri) {
-            this.hystrixStreamUri = hystrixStreamUri;
         }
     }
 }
