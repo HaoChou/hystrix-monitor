@@ -16,12 +16,14 @@ import io.netty.channel.local.LocalEventLoopGroup;
  */
 public class LocalClient {
 
+    private final String name;
     private final String remoteAddress;
     private final EventLoopGroup eventLoopGroup ;
 
     private final EurekaAppInfo eurekaAppInfo;
 
-    public LocalClient(String remoteAddress, EurekaAppInfo eurekaAppInfo) {
+    public LocalClient(String name,String remoteAddress, EurekaAppInfo eurekaAppInfo) {
+        this.name=name;
         this.remoteAddress = remoteAddress;
         this.eurekaAppInfo = eurekaAppInfo;
         this.eventLoopGroup = new LocalEventLoopGroup();
@@ -42,7 +44,7 @@ public class LocalClient {
             });
             LocalAddress address = new LocalAddress(this.remoteAddress);
             ChannelFuture future = b.connect(address).sync();
-            future.channel().closeFuture().sync();
+//            future.channel().closeFuture().sync();
         } catch (Exception e) {
             System.out.println("error !" + e);
         }
@@ -52,5 +54,8 @@ public class LocalClient {
         return eurekaAppInfo.getHystrixStreamUrl();
     }
 
+    public String getName(){
+        return name;
+    }
 
 }
