@@ -11,39 +11,36 @@ import java.util.*;
  */
 public class AppObservable extends Observable {
 
-    private Set<EurekaAppInfo> eurekaAppInfoSet = new HashSet<>();
+    private Vector<EurekaAppInfo> eurekaAppInfoVector= new Vector<>();
 
 
-    public  void addAppAndNotify(EurekaAppInfo eurekaAppInfo){
-        synchronized (this) {
-            if (null == eurekaAppInfo) {
-                throw new NullPointerException("addAppAndNotify eurekaAppInfo 不能为空！");
-            }
-            if (!eurekaAppInfoSet.contains(eurekaAppInfo)) {
-                eurekaAppInfoSet.add(eurekaAppInfo);
-                setChanged();//protected方法 只能继承后调用
-                notifyObservers(eurekaAppInfo);
-            }
+    public  synchronized void addAppAndNotify(EurekaAppInfo eurekaAppInfo) {
+        if (null == eurekaAppInfo) {
+            throw new NullPointerException("addAppAndNotify eurekaAppInfo 不能为空！");
+        }
+        if (!eurekaAppInfoVector.contains(eurekaAppInfo)) {
+            eurekaAppInfoVector.add(eurekaAppInfo);
+            setChanged();//protected方法 只能继承后调用
+            notifyObservers(eurekaAppInfo);
         }
     }
 
 
-    public void removeAppAndNotify(EurekaAppInfo eurekaAppInfo){
-        synchronized (this) {
-            if (null == eurekaAppInfo) {
-                throw new NullPointerException("removeAppAndNotify eurekaAppInfo 不能为空！");
-            }
-            if (!eurekaAppInfoSet.contains(eurekaAppInfo)) {
-                eurekaAppInfoSet.remove(eurekaAppInfo);
-                setChanged();//protected方法 只能继承后调用
-                notifyObservers(eurekaAppInfo);
-            }
+    public synchronized void  removeAppAndNotify(EurekaAppInfo eurekaAppInfo) {
+        if (null == eurekaAppInfo) {
+            throw new NullPointerException("removeAppAndNotify eurekaAppInfo 不能为空！");
+        }
+        if (!eurekaAppInfoVector.contains(eurekaAppInfo)) {
+            eurekaAppInfoVector.remove(eurekaAppInfo);
+            setChanged();//protected方法 只能继承后调用
+            notifyObservers(eurekaAppInfo);
         }
     }
+
 
     public boolean containsApp(EurekaAppInfo arg)
     {
-        return eurekaAppInfoSet.contains(arg);
+        return eurekaAppInfoVector.contains(arg);
     }
 
 }

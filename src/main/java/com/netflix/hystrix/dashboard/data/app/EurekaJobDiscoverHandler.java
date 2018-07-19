@@ -2,6 +2,9 @@ package com.netflix.hystrix.dashboard.data.app;
 
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.dashboard.config.MyMonitorConfig;
+import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,10 +12,7 @@ import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zhou
@@ -20,13 +20,16 @@ import java.util.Map;
  */
 @Component
 public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(EurekaJobDiscoverHandler.class);
+
     @Autowired
     MyMonitorConfig myMonitorConfig;
 
     private String eurekaAppsUrl;
 
-    private static String HYSTRIX_STREAM_URI= "/actuator/hystrix.stream";
-    private List<EurekaAppInfo> eurekaAppInfos = new ArrayList<>();
+    private static String HYSTRIX_STREAM_URI = "/actuator/hystrix.stream";
+    private Vector<EurekaAppInfo> eurekaAppInfos = new Vector<>();
 
     @PostConstruct
     void init() {
@@ -37,15 +40,18 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
     @Override
     public void handler() {
         URL url = null;
+        HttpURLConnection connection = null;
+        InputStream is = null;
+        String eureakaAppInfoResult = null;
         try {
             url = new URL(eurekaAppsUrl);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
             if (200 == connection.getResponseCode()) {
                 //得到输入流
-                InputStream is = connection.getInputStream();
+                is = connection.getInputStream();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
                 int len = 0;
@@ -53,8 +59,8 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                     byteArrayOutputStream.write(buffer, 0, len);
                     byteArrayOutputStream.flush();
                 }
-                String result = byteArrayOutputStream.toString("utf-8");
-                HashMap map = JSON.parseObject(result, HashMap.class);
+                eureakaAppInfoResult = byteArrayOutputStream.toString("utf-8");
+                HashMap map = JSON.parseObject(eureakaAppInfoResult, HashMap.class);
                 Map applications = (Map) map.get("applications");
                 List<Map> application = (List<Map>) applications.get("application");
 
@@ -67,32 +73,66 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                         Integer portInteger = (Integer) port.get("$");
                         System.out.println("name:" + name + ",ip:" + ip + ":" + portInteger);
 
+                        EurekaAppInfo eurekaAppInfo = new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI);
 
-                        boolean hasHystrixStream = checkStatus("http://" + ip + ":" + portInteger + HYSTRIX_STREAM_URI);
-                        if(hasHystrixStream){
-                            EurekaAppInfo eurekaAppInfo = new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI);
-                            eurekaAppInfos.add(eurekaAppInfo);
-                        }
+                        new Thread(new CheckStatusRunnable(eurekaAppInfos,eurekaAppInfo)).start();
+//                        boolean hasHystrixStream = checkStatus(eurekaAppInfo.getHystrixStreamUrl());
+//                        if (hasHystrixStream) {
+//                            eurekaAppInfos.add(eurekaAppInfo);
+//                        }
                     }
                 }
-
-
             }
-
             System.out.println(JSON.toJSON(eurekaAppInfos));
 
         } catch (Exception e) {
+            logger.error("解析错误,eureakaAppInfoResult:" + eureakaAppInfoResult, e);
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception ignore) {
+
+                }
+            }
+
         }
 
     }
 
+    private class CheckStatusRunnable implements Runnable {
+
+        private final Vector eurekaAppInfos;
+        private final EurekaAppInfo appInfo;
+
+        public CheckStatusRunnable(Vector eurekaAppInfos, EurekaAppInfo eurekaAppInfo) {
+            this.eurekaAppInfos = eurekaAppInfos;
+            this.appInfo = eurekaAppInfo;
+        }
+
+        @Override
+        public void run() {
+            boolean status = checkStatus(appInfo.getHystrixStreamUrl());
+            if (status) {
+                eurekaAppInfos.add(appInfo);
+                System.out.println(JSON.toJSONString(eurekaAppInfos));
+
+            }
+        }
+    }
+
+
     private boolean checkStatus(String urlIn) {
 
+        HttpURLConnection connection = null;
         try {
             URL url = new URL(urlIn);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(1000);
             connection.setReadTimeout(1000);
             connection.setRequestMethod("GET");
@@ -103,8 +143,13 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
             return false;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("检查状态失败"+urlIn,e);
             return false;
+        } finally {
+
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @author zhou
@@ -29,17 +31,17 @@ public class StreamClientRunnable  implements Runnable{
 
     @Override
     public void run() {
-        HttpGet httpget = null;
         InputStream is = null;
-
+        HttpURLConnection connection = null;
+        URL url = null;
         try {
-            httpget = new HttpGet(hystrixStreamUrl);
-
-            HttpClient client = ProxyConnectionManager.httpClient;
-            HttpResponse httpResponse = client.execute(httpget);
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-            if (statusCode == HttpStatus.SC_OK) {
-                is = httpResponse.getEntity().getContent();
+            url = new URL(hystrixStreamUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            if (200 == connection.getResponseCode()) {
+                //得到输入流
+                 is = connection.getInputStream();
                 int b = -1;
                 StringBuilder sb = new StringBuilder();
                 while ((b = is.read()) != -2) {
@@ -70,17 +72,14 @@ public class StreamClientRunnable  implements Runnable{
         } catch (Exception e) {
             logger.error("Error proxying request: " + hystrixStreamUrl, e);
         } finally {
-            if (httpget != null) {
+            if (connection!= null) {
                 try {
-                    httpget.abort();
+                    connection.disconnect();
                 } catch (Exception e) {
                     logger.error("failed aborting proxy connection.", e);
                 }
             }
-
-            // httpget.abort() MUST be called first otherwise is.close() hangs (because data is still streaming?)
             if (is != null) {
-                // this should already be closed by httpget.abort() above
                 try {
                     is.close();
                 } catch (Exception e) {

@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class ClientHandler extends SimpleChannelInboundHandler<String> {
 
     private final LocalClient localClient;
-    private static DefaultEventExecutorGroup eventExecutors =new DefaultEventExecutorGroup(2);
+    private static DefaultEventExecutorGroup eventExecutors =new DefaultEventExecutorGroup(1);
 
     public ClientHandler(LocalClient localClient) {
         this.localClient = localClient;

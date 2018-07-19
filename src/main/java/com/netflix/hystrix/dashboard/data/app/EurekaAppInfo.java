@@ -1,5 +1,4 @@
 package com.netflix.hystrix.dashboard.data.app;
-
 /**
  * @author zhou
  * Created on 2018/7/17
@@ -52,4 +51,36 @@ public class EurekaAppInfo {
     public String getHystrixStreamUrl(){
         return "http://"+ipAddr+":"+port+ uri;
     }
+
+    @Override
+    public int hashCode(){
+        return getHystrixStreamUrl().hashCode();
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof EurekaAppInfo)) {
+            return false;
+        }
+        EurekaAppInfo eurekaAppInfo = (EurekaAppInfo)obj;
+        return (this.getHystrixStreamUrl().equals(eurekaAppInfo.getHystrixStreamUrl()));
+    }
+
+
+//    public static void main(String[] args) {
+//        Vector set = new Vector();
+//        Set set = new Vector();
+//
+//        EurekaAppInfo eurekaAppInfo = new EurekaAppInfo("ASTROLOGY-TASK","172.16.36.93",7005,"/actuator/hystrix.stream");
+//        EurekaAppInfo eurekaAppInfo2 = new EurekaAppInfo("ASTROLOGY-TASK","172.16.36.93",7005,"/actuator/hystrix.stream");
+//        System.out.println(eurekaAppInfo.equals(eurekaAppInfo2));
+//
+//
+//        set.add(eurekaAppInfo);
+//
+//        System.out.println(set.contains(eurekaAppInfo2));
+//        set.add(eurekaAppInfo2);
+//
+//
+//        System.out.println(set.size());
+//    }
 }
