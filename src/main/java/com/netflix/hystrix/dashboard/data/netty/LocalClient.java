@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.local.LocalAddress;
 import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalEventLoopGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 本地的netty客户端
@@ -15,6 +17,8 @@ import io.netty.channel.local.LocalEventLoopGroup;
  * Created on 2018/7/17
  */
 public class LocalClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocalClient.class);
 
     private final String name;
     private final String remoteAddress;
@@ -44,9 +48,10 @@ public class LocalClient {
             });
             LocalAddress address = new LocalAddress(this.remoteAddress);
             ChannelFuture future = b.connect(address).sync();
-//            future.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
+            LOGGER.info("LocalClient与服务端断开！："+eurekaAppInfo.getHystrixStreamUrl());
         } catch (Exception e) {
-            System.out.println("error !" + e);
+            LOGGER.error("LocalClient异常：",e);
         }
     }
 
@@ -56,6 +61,11 @@ public class LocalClient {
 
     public String getName(){
         return name;
+    }
+
+
+    public void shutdown() {
+        eventLoopGroup.shutdownGracefully();
     }
 
 }

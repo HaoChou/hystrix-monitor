@@ -1,4 +1,6 @@
-package com.netflix.hystrix.dashboard.data.app;
+package com.netflix.hystrix.dashboard.data.app.observer;
+
+import com.netflix.hystrix.dashboard.data.app.EurekaAppInfo;
 
 import java.util.*;
 
@@ -11,29 +13,40 @@ import java.util.*;
  */
 public class AppObservable extends Observable {
 
+    private static AppObservable INSTANCE = new AppObservable();
+
+    public static AppObservable getInstance(){
+        return INSTANCE;
+    }
+    private AppObservable(){
+
+    }
+
     private Vector<EurekaAppInfo> eurekaAppInfoVector= new Vector<>();
 
 
     public  synchronized void addAppAndNotify(EurekaAppInfo eurekaAppInfo) {
         if (null == eurekaAppInfo) {
-            throw new NullPointerException("addAppAndNotify eurekaAppInfo 不能为空！");
+//            throw new NullPointerException("addAppAndNotify eurekaAppInfo 不能为空！");
+            return;
         }
         if (!eurekaAppInfoVector.contains(eurekaAppInfo)) {
             eurekaAppInfoVector.add(eurekaAppInfo);
             setChanged();//protected方法 只能继承后调用
-            notifyObservers(eurekaAppInfo);
+            notifyObservers(new NotifyMessage(MessageTypeEnum.APP_ADDED,eurekaAppInfo));
         }
     }
 
 
     public synchronized void  removeAppAndNotify(EurekaAppInfo eurekaAppInfo) {
         if (null == eurekaAppInfo) {
-            throw new NullPointerException("removeAppAndNotify eurekaAppInfo 不能为空！");
+//            throw new NullPointerException("removeAppAndNotify eurekaAppInfo 不能为空！");
+            return;
         }
-        if (!eurekaAppInfoVector.contains(eurekaAppInfo)) {
+        if (eurekaAppInfoVector.contains(eurekaAppInfo)) {
             eurekaAppInfoVector.remove(eurekaAppInfo);
             setChanged();//protected方法 只能继承后调用
-            notifyObservers(eurekaAppInfo);
+            notifyObservers(new NotifyMessage(MessageTypeEnum.APP_REMOVED,eurekaAppInfo));
         }
     }
 

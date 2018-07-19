@@ -4,12 +4,15 @@ package com.netflix.hystrix.dashboard.data.app;
  * Created on 2018/7/17
  */
 public class EurekaAppInfo {
-    private String appName;
-    private String ipAddr;
-    private Integer port;
-    private String uri;
+    private final String appName;
+    private final String ipAddr;
+    private final Integer port;
+    private final String uri;
 
     public EurekaAppInfo(String appName, String ipAddr, Integer port, String uri) {
+        if(null==appName||null==ipAddr||null==port||null==uri){
+            throw new NullPointerException("EurekaAppInfo构造函数的参数不能为null");
+        }
         this.appName = appName;
         this.ipAddr = ipAddr;
         this.port = port;
@@ -20,32 +23,16 @@ public class EurekaAppInfo {
         return appName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
     public String getIpAddr() {
         return ipAddr;
-    }
-
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
     }
 
     public Integer getPort() {
         return port;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
     public String getUri() {
         return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     public String getHystrixStreamUrl(){

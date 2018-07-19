@@ -43,10 +43,29 @@ public class NettyStarter {
     public static void main(String[] args) throws InterruptedException {
 
         String url = "http://172.16.36.93:7005/actuator/hystrix.stream";
-        new LocalServer(LOCAL_ADDRESS).start();
+        LocalServer localServer = new LocalServer(LOCAL_ADDRESS);
         EurekaAppInfo eurekaAppInfo = new EurekaAppInfo("ASTROLOGY-TASK","172.16.36.93",7005,"/actuator/hystrix.stream");
         EurekaAppInfo eurekaAppInfo2 = new EurekaAppInfo("elemets-TASK","172.16.36.115",7000,"/actuator/hystrix.stream");
-        new LocalClient("测试1",LOCAL_ADDRESS,eurekaAppInfo).start();
-        new LocalClient("测试2",LOCAL_ADDRESS,eurekaAppInfo2).start();
+        LocalClient localClient = new LocalClient("测试1", LOCAL_ADDRESS, eurekaAppInfo);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                localServer.start();
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                localClient.start();
+            }
+        }).start();
+
+        Thread.sleep(3000);
+
+        localClient.shutdown();
+//        localServer.shutdown();
+//        new LocalClient("测试2",LOCAL_ADDRESS,eurekaAppInfo2).start();
     }
 }

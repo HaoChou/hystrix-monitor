@@ -2,7 +2,8 @@ package com.netflix.hystrix.dashboard.data.app;
 
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.dashboard.config.MyMonitorConfig;
-import javafx.util.Callback;
+import com.netflix.hystrix.dashboard.data.app.observer.AppObservable;
+import com.netflix.hystrix.dashboard.threadpool.LocalThreadPoolManger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,14 +73,8 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                         Map port = (Map) tempInstance.get("port");
                         Integer portInteger = (Integer) port.get("$");
                         System.out.println("name:" + name + ",ip:" + ip + ":" + portInteger);
-
                         EurekaAppInfo eurekaAppInfo = new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI);
-
-                        new Thread(new CheckStatusRunnable(eurekaAppInfos,eurekaAppInfo)).start();
-//                        boolean hasHystrixStream = checkStatus(eurekaAppInfo.getHystrixStreamUrl());
-//                        if (hasHystrixStream) {
-//                            eurekaAppInfos.add(eurekaAppInfo);
-//                        }
+                        LocalThreadPoolManger.getInstance().getAppDiscoverThreadPool().execute(new CheckStatusRunnable(eurekaAppInfos,eurekaAppInfo));
                     }
                 }
             }
@@ -116,21 +111,22 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
 
         @Override
         public void run() {
-            boolean status = checkStatus(appInfo.getHystrixStreamUrl());
+            boolean status = checkStatus(appInfo);
             if (status) {
-                eurekaAppInfos.add(appInfo);
-                System.out.println(JSON.toJSONString(eurekaAppInfos));
-
+                AppObservable.getInstance().addAppAndNotify(appInfo);
+            }
+            else {
+                AppObservable.getInstance().removeAppAndNotify(appInfo);
             }
         }
     }
 
 
-    private boolean checkStatus(String urlIn) {
+    private boolean checkStatus(EurekaAppInfo eurekaAppInfo) {
 
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(urlIn);
+            URL url = new URL(eurekaAppInfo.getHystrixStreamUrl());
 
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(1000);
@@ -143,7 +139,7 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
             return false;
 
         } catch (Exception e) {
-            logger.error("检查状态失败"+urlIn,e);
+            logger.info("检查状态失败"+eurekaAppInfo.getAppName()+eurekaAppInfo.getHystrixStreamUrl()+e.getMessage());
             return false;
         } finally {
 

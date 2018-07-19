@@ -10,6 +10,8 @@ import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +19,9 @@ import org.springframework.stereotype.Component;
  * Created on 2018/7/13
  */
 public class LocalServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocalServer.class);
+
     private String localAddress;
     private final EventLoopGroup bossGroup;
     private final EventLoopGroup workGroup;
@@ -27,7 +32,7 @@ public class LocalServer {
         this.localAddress = localAddress;
     }
 
-    public void start() throws InterruptedException {
+    public void start(){
         EventLoopGroup eventLoopGroup = new LocalEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
@@ -43,12 +48,13 @@ public class LocalServer {
             ChannelFuture future = b.bind(address).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
-                    System.out.println("local server successively bind");
+                    System.out.println("LocalServer成功绑定："+localAddress);
                 }
             });
-//            future.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
+            LOGGER.info("LocalServer与服务端断开！：");
         } catch (Exception e) {
-            System.out.println("error !" + e);
+            LOGGER.error("LocalServer异常：" + e);
         }
     }
 

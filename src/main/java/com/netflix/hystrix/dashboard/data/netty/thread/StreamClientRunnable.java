@@ -2,6 +2,7 @@ package com.netflix.hystrix.dashboard.data.netty.thread;
 
 import com.netflix.hystrix.dashboard.http.ProxyConnectionManager;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -34,58 +35,57 @@ public class StreamClientRunnable  implements Runnable{
         InputStream is = null;
         HttpURLConnection connection = null;
         URL url = null;
-        try {
-            url = new URL(hystrixStreamUrl);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Accept", "application/json");
-            if (200 == connection.getResponseCode()) {
-                //得到输入流
-                 is = connection.getInputStream();
-                int b = -1;
-                StringBuilder sb = new StringBuilder();
-                while ((b = is.read()) != -2) {
-                    if(b==-1)
-                    {
-                        System.out.println("$$$$$$$$$$$$$"+b);
+        //直到channel被关闭
+        while (channel.isActive()) {
+            try {
+                url = new URL(hystrixStreamUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/json");
+                if (200 == connection.getResponseCode()) {
+                    //得到输入流
+                    is = connection.getInputStream();
+                    int b = -1;
+                    StringBuilder sb = new StringBuilder();
+                    while ((b = is.read()) != -1&&channel.isActive()) {
+                        try {
+                            sb.append((char) b);
+                            if (b == 10 /** flush buffer on line feed */) {
+                                channel.writeAndFlush(sb.toString());
+                                sb = new StringBuilder();
+                            }
+                        } catch (Exception e) {
+                            if (e.getClass().getSimpleName().equalsIgnoreCase("ClientAbortException")) {
+                                //可忽略的异常
+                                logger.info("ClientAbortException",e);
+                                break;
+                            } else {
+                                // received unknown error while writing so throw an exception
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
+                }
+            } catch (Exception e) {
+                logger.error("Error proxying request: " + hystrixStreamUrl, e);
+            } finally {
+                if (connection != null) {
                     try {
-                        sb.append((char)b);
-                        if (b == 10 /** flush buffer on line feed */) {
-                            channel.writeAndFlush(sb.toString());
-                            sb=new StringBuilder();
-                        }
+                        connection.disconnect();
                     } catch (Exception e) {
-                        if (e.getClass().getSimpleName().equalsIgnoreCase("ClientAbortException")) {
-                            // don't throw an exception as this means the user closed the connection
-//                            logger.debug("Connection closed by client. Will stop proxying ...");
-                            // break out of the while loop
-                            break;
-                        } else {
-                            // received unknown error while writing so throw an exception
-                            throw new RuntimeException(e);
-                        }
+                        logger.error("failed aborting proxy connection.", e);
                     }
                 }
-                System.out.println("$$$$$$$$$$$$$"+b);
-            }
-        } catch (Exception e) {
-            logger.error("Error proxying request: " + hystrixStreamUrl, e);
-        } finally {
-            if (connection!= null) {
-                try {
-                    connection.disconnect();
-                } catch (Exception e) {
-                    logger.error("failed aborting proxy connection.", e);
-                }
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    // e.printStackTrace();
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+                        // e.printStackTrace();
+                    }
                 }
             }
         }
+
+        logger.info("StreamClientRunnable exit url:" +hystrixStreamUrl);
     }
 }
