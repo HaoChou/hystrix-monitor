@@ -30,7 +30,6 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
     private String eurekaAppsUrl;
 
     private static String HYSTRIX_STREAM_URI = "/actuator/hystrix.stream";
-    private Vector<EurekaAppInfo> eurekaAppInfos = new Vector<>();
 
     @PostConstruct
     void init() {
@@ -65,6 +64,7 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                 Map applications = (Map) map.get("applications");
                 List<Map> application = (List<Map>) applications.get("application");
 
+                List<EurekaAppInfo> eurekaAppInfoList = new ArrayList<>();
                 for (Map tempMap : application) {
                     String name = (String) tempMap.get("name");
                     List<Map> instances = (List<Map>) tempMap.get("instance");
@@ -72,15 +72,20 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                         String ip = (String) tempInstance.get("ipAddr");
                         Map port = (Map) tempInstance.get("port");
                         Integer portInteger = (Integer) port.get("$");
-                        System.out.println("name:" + name + ",ip:" + ip + ":" + portInteger);
                         if(myMonitorConfig.getIgnoreApps()!=null&&myMonitorConfig.getIgnoreApps().contains(name)){
                             logger.info("根据配置[my-monitor.ignore-apps]忽略app："+name);
                             continue;
                         }
-                        EurekaAppInfo eurekaAppInfo = new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI);
-                        LocalThreadPoolManger.getInstance().getAppDiscoverThreadPool().execute(new CheckStatusRunnable(eurekaAppInfos,eurekaAppInfo));
+                        try {
+                            eurekaAppInfoList.add(new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI));
+                        }catch (Exception e){
+
+                        }
                     }
                 }
+
+                LocalEurekaAppRegister.getInstance().tryRegisterApp(eurekaAppInfoList);
+
             }
         } catch (Exception e) {
             logger.error("解析错误,eureakaAppInfoResult:" + eureakaAppInfoResult, e);
@@ -99,55 +104,5 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
 
         }
 
-    }
-
-    private class CheckStatusRunnable implements Runnable {
-
-        private final Vector eurekaAppInfos;
-        private final EurekaAppInfo appInfo;
-
-        public CheckStatusRunnable(Vector eurekaAppInfos, EurekaAppInfo eurekaAppInfo) {
-            this.eurekaAppInfos = eurekaAppInfos;
-            this.appInfo = eurekaAppInfo;
-        }
-
-        @Override
-        public void run() {
-            boolean status = checkStatus(appInfo);
-            if (status) {
-                AppObservable.getInstance().addAppAndNotify(appInfo);
-            }
-            else {
-                AppObservable.getInstance().removeAppAndNotify(appInfo);
-            }
-        }
-    }
-
-
-    private boolean checkStatus(EurekaAppInfo eurekaAppInfo) {
-
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(eurekaAppInfo.getHystrixStreamUrl());
-
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(1000);
-            connection.setReadTimeout(1000);
-            connection.setRequestMethod("GET");
-            if (200 == connection.getResponseCode()) {
-                return true;
-            }
-
-            return false;
-
-        } catch (Exception e) {
-            logger.info("检查状态失败"+eurekaAppInfo.toString()+e.getMessage());
-            return false;
-        } finally {
-
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
     }
 }

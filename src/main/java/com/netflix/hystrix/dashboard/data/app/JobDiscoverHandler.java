@@ -7,4 +7,5 @@ package com.netflix.hystrix.dashboard.data.app;
 public interface JobDiscoverHandler {
 
     void handler();
+
 }
