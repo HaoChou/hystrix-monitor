@@ -91,6 +91,7 @@ hs_err_pid*
 .project
 .springBeans
 .idea
+.target
 target/
 .apt_generated/
 .factorypath
