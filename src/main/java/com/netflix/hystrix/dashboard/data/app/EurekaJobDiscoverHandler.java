@@ -78,8 +78,6 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                     }
                 }
             }
-            System.out.println(JSON.toJSON(eurekaAppInfos));
-
         } catch (Exception e) {
             logger.error("解析错误,eureakaAppInfoResult:" + eureakaAppInfoResult, e);
             e.printStackTrace();
@@ -139,7 +137,7 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
             return false;
 
         } catch (Exception e) {
-            logger.info("检查状态失败"+eurekaAppInfo.getAppName()+eurekaAppInfo.getHystrixStreamUrl()+e.getMessage());
+            logger.info("检查状态失败"+eurekaAppInfo.toString()+e.getMessage());
             return false;
         } finally {
 

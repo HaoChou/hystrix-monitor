@@ -12,6 +12,6 @@ public class LocalServerHandler extends SimpleChannelInboundHandler<String>  {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 //        ctx.write("server has handler the msg:" + msg);
 //        ctx.flush();
-        System.out.println("服务端收到:" +msg);
+//        System.out.println("服务端收到:" +msg);
     }
 }

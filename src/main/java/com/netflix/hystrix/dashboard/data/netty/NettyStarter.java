@@ -20,7 +20,7 @@ public class NettyStarter {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyStarter.class);
 
-    public static String LOCAL_ADDRESS="hystrix-stream";
+    public static String HYSTRIX_STREAM_LOCAL_ADDRESS="hystrix-stream";
     private LocalServer localServer;
 //
 //    static {
@@ -37,16 +37,16 @@ public class NettyStarter {
 
     @PostConstruct
     private void init(){
-        localServer =new LocalServer(LOCAL_ADDRESS);
+        localServer =new LocalServer(HYSTRIX_STREAM_LOCAL_ADDRESS);
     }
 
     public static void main(String[] args) throws InterruptedException {
 
         String url = "http://172.16.36.93:7005/actuator/hystrix.stream";
-        LocalServer localServer = new LocalServer(LOCAL_ADDRESS);
+        LocalServer localServer = new LocalServer(HYSTRIX_STREAM_LOCAL_ADDRESS);
         EurekaAppInfo eurekaAppInfo = new EurekaAppInfo("ASTROLOGY-TASK","172.16.36.93",7005,"/actuator/hystrix.stream");
         EurekaAppInfo eurekaAppInfo2 = new EurekaAppInfo("elemets-TASK","172.16.36.115",7000,"/actuator/hystrix.stream");
-        LocalClient localClient = new LocalClient("测试1", LOCAL_ADDRESS, eurekaAppInfo);
+        LocalClient localClient = new LocalClient("测试1", HYSTRIX_STREAM_LOCAL_ADDRESS, eurekaAppInfo);
 
         new Thread(new Runnable() {
             @Override

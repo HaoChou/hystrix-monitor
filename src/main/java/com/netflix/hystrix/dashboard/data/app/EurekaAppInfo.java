@@ -1,4 +1,7 @@
 package com.netflix.hystrix.dashboard.data.app;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @author zhou
  * Created on 2018/7/17
@@ -52,6 +55,10 @@ public class EurekaAppInfo {
         return (this.getHystrixStreamUrl().equals(eurekaAppInfo.getHystrixStreamUrl()));
     }
 
+    @Override
+    public String toString(){
+        return appName+":"+getHystrixStreamUrl();
+    }
 
 //    public static void main(String[] args) {
 //        Vector set = new Vector();

@@ -65,6 +65,7 @@ public class LocalClient {
 
 
     public void shutdown() {
+        LOGGER.info("clien:"+eurekaAppInfo.toString()+"断开");
         eventLoopGroup.shutdownGracefully();
     }
 
