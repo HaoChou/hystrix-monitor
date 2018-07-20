@@ -55,8 +55,8 @@ public class LocalClient {
         }
     }
 
-    public String getUrl() {
-        return eurekaAppInfo.getHystrixStreamUrl();
+    public EurekaAppInfo getEurekaAppInfo() {
+        return eurekaAppInfo;
     }
 
     public String getName(){

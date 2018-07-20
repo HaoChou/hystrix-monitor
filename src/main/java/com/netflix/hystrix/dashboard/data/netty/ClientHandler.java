@@ -1,5 +1,6 @@
 package com.netflix.hystrix.dashboard.data.netty;
 
+import com.netflix.hystrix.dashboard.data.app.EurekaAppInfo;
 import com.netflix.hystrix.dashboard.data.netty.thread.StreamClientRunnable;
 import com.netflix.hystrix.dashboard.threadpool.LocalThreadPoolManger;
 
@@ -18,17 +19,19 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleChannelInboundHandler.class);
 
     private final LocalClient localClient;
+    private final EurekaAppInfo eurekaAppInfo;
 
     public ClientHandler(LocalClient localClient) {
         this.localClient = localClient;
+        eurekaAppInfo=localClient.getEurekaAppInfo();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        LOGGER.info("client [" + localClient.getUrl() + "] connected");
-        ctx.writeAndFlush("client [" + localClient.getUrl() + "] connected");
-        LocalThreadPoolManger.getInstance().getBizThreadPool().execute(new StreamClientRunnable(localClient.getUrl(),ctx.channel()));
-        LOGGER.info("client 任务已经提交" +localClient.getUrl());
+        LOGGER.info("client [" + eurekaAppInfo.toString()+ "] connected");
+        ctx.writeAndFlush("client [" + eurekaAppInfo.toString() + "] connected");
+        LocalThreadPoolManger.getInstance().getBizThreadPool().execute(new StreamClientRunnable(eurekaAppInfo,ctx.channel()));
+        LOGGER.info("client 任务已经提交" +eurekaAppInfo.toString());
     }
 
     @Override
