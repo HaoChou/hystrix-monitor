@@ -73,6 +73,10 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
                         Map port = (Map) tempInstance.get("port");
                         Integer portInteger = (Integer) port.get("$");
                         System.out.println("name:" + name + ",ip:" + ip + ":" + portInteger);
+                        if(myMonitorConfig.getIgnoreApps()!=null&&myMonitorConfig.getIgnoreApps().contains(name)){
+                            logger.info("根据配置[my-monitor.ignore-apps]忽略app："+name);
+                            continue;
+                        }
                         EurekaAppInfo eurekaAppInfo = new EurekaAppInfo(name, ip, portInteger, HYSTRIX_STREAM_URI);
                         LocalThreadPoolManger.getInstance().getAppDiscoverThreadPool().execute(new CheckStatusRunnable(eurekaAppInfos,eurekaAppInfo));
                     }
