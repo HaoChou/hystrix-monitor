@@ -1,8 +1,0 @@
-server:
-  port: 8888
-#spring:
-#  thymeleaf:
-#    prefix: classpath:/static/
-
-my-monitor:
-  eurekaApps-url: http://172.16.36.88:1111/eureka/apps
