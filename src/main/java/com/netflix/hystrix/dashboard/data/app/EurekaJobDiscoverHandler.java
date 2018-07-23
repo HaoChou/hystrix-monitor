@@ -48,6 +48,8 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
 
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            connection.setReadTimeout(3000);
+            connection.setConnectTimeout(3000);
             connection.setRequestProperty("Accept", "application/json");
             if (200 == connection.getResponseCode()) {
                 //得到输入流
