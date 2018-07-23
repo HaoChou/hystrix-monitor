@@ -63,7 +63,10 @@ public class StreamClientRunnable  implements Runnable{
                         try {
                             sb.append((char) b);
                             if (b == 10 /** flush buffer on line feed */) {
-                                Message.NormalMessage normalMessage = Message.NormalMessage.newBuilder().setContent(sb.toString()).build();
+                                Message.NormalMessage normalMessage = Message.NormalMessage.newBuilder()
+                                        .setContent(sb.toString())
+                                        .setAppInfo(eurekaAppInfo.toString())
+                                        .build();
                                 channel.writeAndFlush(normalMessage);
                                 sb = new StringBuilder();
                             }

@@ -1373,18 +1373,32 @@ public final class Message {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     boolean hasContent();
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     java.lang.String getContent();
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     com.google.protobuf.ByteString
         getContentBytes();
+
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    boolean hasAppInfo();
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    java.lang.String getAppInfo();
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getAppInfoBytes();
   }
   /**
    * Protobuf type {@code message.NormalMessage}
@@ -1400,6 +1414,7 @@ public final class Message {
     }
     private NormalMessage() {
       content_ = "";
+      appInfo_ = "";
     }
 
     @java.lang.Override
@@ -1439,6 +1454,12 @@ public final class Message {
               content_ = bs;
               break;
             }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              appInfo_ = bs;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1467,13 +1488,13 @@ public final class Message {
     public static final int CONTENT_FIELD_NUMBER = 1;
     private volatile java.lang.Object content_;
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     public boolean hasContent() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     public java.lang.String getContent() {
       java.lang.Object ref = content_;
@@ -1490,7 +1511,7 @@ public final class Message {
       }
     }
     /**
-     * <code>optional string content = 1;</code>
+     * <code>required string content = 1;</code>
      */
     public com.google.protobuf.ByteString
         getContentBytes() {
@@ -1506,12 +1527,62 @@ public final class Message {
       }
     }
 
+    public static final int APPINFO_FIELD_NUMBER = 2;
+    private volatile java.lang.Object appInfo_;
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    public boolean hasAppInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    public java.lang.String getAppInfo() {
+      java.lang.Object ref = appInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          appInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string appInfo = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAppInfoBytes() {
+      java.lang.Object ref = appInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        appInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasContent()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAppInfo()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1520,6 +1591,9 @@ public final class Message {
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, content_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, appInfo_);
       }
       unknownFields.writeTo(output);
     }
@@ -1531,6 +1605,9 @@ public final class Message {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, content_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, appInfo_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1553,6 +1630,11 @@ public final class Message {
         result = result && getContent()
             .equals(other.getContent());
       }
+      result = result && (hasAppInfo() == other.hasAppInfo());
+      if (hasAppInfo()) {
+        result = result && getAppInfo()
+            .equals(other.getAppInfo());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1567,6 +1649,10 @@ public final class Message {
       if (hasContent()) {
         hash = (37 * hash) + CONTENT_FIELD_NUMBER;
         hash = (53 * hash) + getContent().hashCode();
+      }
+      if (hasAppInfo()) {
+        hash = (37 * hash) + APPINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getAppInfo().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1699,6 +1785,8 @@ public final class Message {
         super.clear();
         content_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        appInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1727,6 +1815,10 @@ public final class Message {
           to_bitField0_ |= 0x00000001;
         }
         result.content_ = content_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.appInfo_ = appInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1774,12 +1866,23 @@ public final class Message {
           content_ = other.content_;
           onChanged();
         }
+        if (other.hasAppInfo()) {
+          bitField0_ |= 0x00000002;
+          appInfo_ = other.appInfo_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasContent()) {
+          return false;
+        }
+        if (!hasAppInfo()) {
+          return false;
+        }
         return true;
       }
 
@@ -1804,13 +1907,13 @@ public final class Message {
 
       private java.lang.Object content_ = "";
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public boolean hasContent() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public java.lang.String getContent() {
         java.lang.Object ref = content_;
@@ -1827,7 +1930,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public com.google.protobuf.ByteString
           getContentBytes() {
@@ -1843,7 +1946,7 @@ public final class Message {
         }
       }
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public Builder setContent(
           java.lang.String value) {
@@ -1856,7 +1959,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public Builder clearContent() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1865,7 +1968,7 @@ public final class Message {
         return this;
       }
       /**
-       * <code>optional string content = 1;</code>
+       * <code>required string content = 1;</code>
        */
       public Builder setContentBytes(
           com.google.protobuf.ByteString value) {
@@ -1874,6 +1977,82 @@ public final class Message {
   }
   bitField0_ |= 0x00000001;
         content_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object appInfo_ = "";
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public boolean hasAppInfo() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public java.lang.String getAppInfo() {
+        java.lang.Object ref = appInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            appInfo_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getAppInfoBytes() {
+        java.lang.Object ref = appInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          appInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public Builder setAppInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        appInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public Builder clearAppInfo() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        appInfo_ = getDefaultInstance().getAppInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string appInfo = 2;</code>
+       */
+      public Builder setAppInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        appInfo_ = value;
         onChanged();
         return this;
       }
@@ -1953,10 +2132,10 @@ public final class Message {
       "\n\rMessage.proto\022\007message\"\036\n\tHeartBeat\022\021\n" +
       "\trequestId\030\001 \002(\005\">\n\010Register\022!\n\007regType\030" +
       "\001 \002(\0162\020.message.RegType\022\017\n\007appInfo\030\002 \002(\t" +
-      "\" \n\rNormalMessage\022\017\n\007content\030\001 \001(\t*-\n\007Re" +
-      "gType\022\020\n\014LOCAL_CLIENT\020\001\022\020\n\014PROXY_CLIENT\020" +
-      "\002B<\n1com.netflix.hystrix.dashboard.data." +
-      "netty.protobufB\007Message"
+      "\"1\n\rNormalMessage\022\017\n\007content\030\001 \002(\t\022\017\n\007ap" +
+      "pInfo\030\002 \002(\t*-\n\007RegType\022\020\n\014LOCAL_CLIENT\020\001" +
+      "\022\020\n\014PROXY_CLIENT\020\002B<\n1com.netflix.hystri" +
+      "x.dashboard.data.netty.protobufB\007Message"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1987,7 +2166,7 @@ public final class Message {
     internal_static_message_NormalMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_NormalMessage_descriptor,
-        new java.lang.String[] { "Content", });
+        new java.lang.String[] { "Content", "AppInfo", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -17,7 +17,8 @@ message Register {
 }
 
 message NormalMessage{
-    optional string content=1;
+    required string content=1;
+    required string appInfo=2;
 }
 
 

@@ -2,6 +2,9 @@ package com.netflix.hystrix.dashboard.data.netty;
 
 import com.google.protobuf.GeneratedMessageV3;
 import com.netflix.hystrix.dashboard.data.netty.protobuf.Message;
+import com.netflix.hystrix.dashboard.data.netty.thread.StreamDataWriteIntoDbRunnable;
+import com.netflix.hystrix.dashboard.influxdb.LocalInfluxDB;
+import com.netflix.hystrix.dashboard.threadpool.LocalThreadPoolManger;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -20,35 +23,14 @@ public class LocalServerHandler extends SimpleChannelInboundHandler<GeneratedMes
     protected void channelRead0(ChannelHandlerContext ctx, GeneratedMessageV3 msg) throws Exception {
 
 
-//        if(msg==null){
-//            return;
-//        }
-//        String[] split = msg.split("\\|");
-//        if(split.length==2){
-//            if(split[0].equals("local")){
-//
-//                CLIENT_LOCAL_CLIENT.putIfAbsent(ctx.channel(),split[1]);
-//                ctx.writeAndFlush("Local" + split[1] + "链接成功");
-//            }
-//            if(split[0].equals("proxy")) {
-//                URL_PROXY_CLIENT.putIfAbsent(split[1], ctx.channel());
-//                ctx.writeAndFlush("代理" + split[1] + "链接成功");
-//            }
-//        }
-//
-//
-//        String url = CLIENT_LOCAL_CLIENT.get(ctx.channel());
-//        Channel channel = URL_PROXY_CLIENT.get(url);
-//        channel.writeAndFlush(msg);
-
 
         if(msg instanceof Message.Register){
             Message.Register registerCommand = (Message.Register) msg;
-        }
-
-        if(msg instanceof Message.NormalMessage){
-            Message.NormalMessage message = (Message.NormalMessage) msg;
-            System.out.println("收到消息："+message.getContent());
+            URL_PROXY_CLIENT.put(registerCommand.getAppInfo(),ctx.channel());
+            CLIENT_LOCAL_CLIENT.put(ctx.channel(),registerCommand.getAppInfo());
+//            System.out.println("收到注册消息"+registerCommand.getAppInfo());
+        }else if(msg instanceof Message.NormalMessage){
+            LocalThreadPoolManger.getInstance().getBizThreadPool().execute(new StreamDataWriteIntoDbRunnable(LocalInfluxDB.getInfluxDB(),(Message.NormalMessage)msg));
         }
     }
 }
