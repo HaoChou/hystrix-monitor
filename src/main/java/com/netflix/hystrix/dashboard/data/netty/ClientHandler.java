@@ -29,7 +29,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         LOGGER.info("client [" + eurekaAppInfo.toString()+ "] connected");
-        ctx.writeAndFlush("client [" + eurekaAppInfo.toString() + "] connected");
+//        ctx.writeAndFlush("client [" + eurekaAppInfo.toString() + "] connected");
+        ctx.writeAndFlush("local|"+eurekaAppInfo.getHystrixStreamUrl());
         LocalThreadPoolManger.getInstance().getBizThreadPool().execute(new StreamClientRunnable(eurekaAppInfo,ctx.channel()));
         LOGGER.info("client 任务已经提交" +eurekaAppInfo.toString());
     }

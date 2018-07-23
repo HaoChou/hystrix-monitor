@@ -19,7 +19,7 @@ public class AppDiscoverSchedule {
     @Autowired
     JobDiscoverHandler jobDiscoverHandler;
 
-    @Scheduled(fixedRate = 1000*60, initialDelay = 1000*60 )
+    @Scheduled(fixedRate = 1000*30, initialDelay = 1000*60 )
     private void discover(){
         LOGGER.info("AppDiscoverSchedule start!");
         jobDiscoverHandler.handler();

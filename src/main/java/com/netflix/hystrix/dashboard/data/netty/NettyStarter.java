@@ -47,6 +47,7 @@ public class NettyStarter {
         EurekaAppInfo eurekaAppInfo = new EurekaAppInfo("ASTROLOGY-TASK","172.16.36.93",7005,"/actuator/hystrix.stream");
         EurekaAppInfo eurekaAppInfo2 = new EurekaAppInfo("elemets-TASK","172.16.36.115",7000,"/actuator/hystrix.stream");
         LocalClient localClient = new LocalClient("测试1", HYSTRIX_STREAM_LOCAL_ADDRESS, eurekaAppInfo);
+        LocalProxyClient localProxyClient = new LocalProxyClient("测试1", HYSTRIX_STREAM_LOCAL_ADDRESS, eurekaAppInfo.getHystrixStreamUrl());
 
         new Thread(new Runnable() {
             @Override
@@ -55,16 +56,25 @@ public class NettyStarter {
             }
         }).start();
 
+        Thread.sleep(1000);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 localClient.start();
             }
         }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                localProxyClient.start();
+            }
+        }).start();
 
-        Thread.sleep(3000);
 
-        localClient.shutdown();
+
+//        Thread.sleep(3000);
+//
+//        localClient.shutdown();
 //        localServer.shutdown();
 //        new LocalClient("测试2",LOCAL_ADDRESS,eurekaAppInfo2).start();
     }

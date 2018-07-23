@@ -1,5 +1,9 @@
 package com.netflix.hystrix.dashboard.data.netty;
 
+import com.netflix.hystrix.dashboard.data.netty.codec.Int32FrameDecoder;
+import com.netflix.hystrix.dashboard.data.netty.codec.Int32FrameEncoder;
+import com.netflix.hystrix.dashboard.data.netty.codec.LocalMessageDecoder;
+import com.netflix.hystrix.dashboard.data.netty.codec.LocalMessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -9,10 +13,9 @@ import io.netty.channel.local.LocalAddress;
 import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+
 
 /**
  * @author zhou
@@ -32,23 +35,28 @@ public class LocalServer {
         this.localAddress = localAddress;
     }
 
-    public void start(){
+    public void start() {
         EventLoopGroup eventLoopGroup = new LocalEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup,workGroup);
+            b.group(bossGroup, workGroup);
             b.channel(LocalServerChannel.class);
             b.childHandler(new ChannelInitializer<LocalChannel>() {
                 @Override
                 protected void initChannel(LocalChannel ch) throws Exception {
-                    ch.pipeline().addLast(new LocalServerHandler());
+                    ch.pipeline()
+                            .addLast(new Int32FrameDecoder())
+                            .addLast(new LocalMessageDecoder())
+                            .addLast(new LocalServerHandler())
+                            .addLast(new LocalMessageEncoder())
+                            .addLast(new Int32FrameEncoder());
                 }
             });
             LocalAddress address = new LocalAddress(this.localAddress);
             ChannelFuture future = b.bind(address).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
-                    System.out.println("LocalServer成功绑定："+localAddress);
+                    System.out.println("LocalServer成功绑定：" + localAddress);
                 }
             });
             future.channel().closeFuture().sync();

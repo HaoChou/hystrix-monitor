@@ -1,6 +1,7 @@
 package com.netflix.hystrix.dashboard.data.netty.thread;
 
 import com.netflix.hystrix.dashboard.data.app.EurekaAppInfo;
+import com.netflix.hystrix.dashboard.data.netty.protobuf.Message;
 import com.netflix.hystrix.dashboard.http.ProxyConnectionManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -62,7 +63,8 @@ public class StreamClientRunnable  implements Runnable{
                         try {
                             sb.append((char) b);
                             if (b == 10 /** flush buffer on line feed */) {
-                                channel.writeAndFlush(sb.toString());
+                                Message.NormalMessage normalMessage = Message.NormalMessage.newBuilder().setContent(sb.toString()).build();
+                                channel.writeAndFlush(normalMessage);
                                 sb = new StringBuilder();
                             }
                         } catch (Exception e) {

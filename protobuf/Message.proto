@@ -1,0 +1,34 @@
+
+syntax = "proto2";
+
+package message;
+
+option java_package = "com.netflix.hystrix.dashboard.data.netty.protobuf";
+option java_outer_classname = "Message";
+
+//心跳
+message HeartBeat {
+	required int32 requestId = 1 ;
+}
+
+message Register {
+    required RegType regType = 1;//注册类型
+    required string appInfo=2;  //app信息
+}
+
+message NormalMessage{
+    optional string content=1;
+}
+
+
+
+//注册类型
+enum RegType {
+    //localCient客户端注册
+	LOCAL_CLIENT = 1;
+    //proxy代理注册
+	PROXY_CLIENT = 2;
+}
+
+
+

@@ -15,6 +15,7 @@ public class MyMonitorConfig {
     private String eurekaAppsUrl;
     private Set<String> ignoreApps;
 
+
     public String getEurekaAppsUrl() {
         return eurekaAppsUrl;
     }
@@ -30,4 +31,6 @@ public class MyMonitorConfig {
     public void setIgnoreApps(Set<String> ignoreApps) {
         this.ignoreApps = ignoreApps;
     }
+
+
 }
