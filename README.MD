@@ -31,32 +31,31 @@
 HystrixCommand的字段
 * __name：command名称__
 * __group：属于哪个group的__
-* currentTime 当前时间
-* isCircuitBreakerOpen：熔断器是否打开
-* errorPercentage：错误百分比
-* errorCount：错误数量
-* requestCount：请求数量
-* rollingCountBadRequests：统计窗口内的错误请求数
-* rollingCountCollapsedRequests：统计窗口内的倒塌数据
+* __currentTime 当前时间__
+* __isCircuitBreakerOpen：熔断器是否打开__
+* __errorPercentage：错误百分比__
+* __errorCount：错误数量__
+* __requestCount：请求数量__
+* __rollingCountBadRequests：统计窗口内的错误请求数__
+* rollingCountCollapsedRequests：统计窗口内的合并请求数据
 * rollingCountEmit：
-* rollingCountExceptionsThrown：统计窗口内异常抛出数
-* rollingCountFailure
+* __rollingCountExceptionsThrown：统计窗口内异常抛出数__
+* __rollingCountFailure:失败数__
 * rollingCountEmit
-* rollingCountFallbackFailure
-* rollingCountFallbackFailure
-* rollingCountFallbackRejection
-* rollingCountFallbackSuccess
-* rollingCountResponsesFromCache
+* __rollingCountFallbackFailure:fallback失败__
+* __rollingCountFallbackRejection:fallback拒绝__
+* __rollingCountFallbackSuccess__:fallback执行成功的
+* __rollingCountResponsesFromCache:走缓存的数__
 * rollingCountSemaphoreRejected
-* rollingCountShortCircuited
+* __rollingCountShortCircuited__
 * __rollingCountSuccess：窗口成功的请求量__
-* rollingCountThreadPoolRejected：窗口内线程池拒绝数
-* rollingCountTimeout：
-* currentConcurrentExecutionCount：
-* rollingMaxConcurrentExecutionCount：
-* latencyExecute_mean：
+* __rollingCountThreadPoolRejected：窗口内线程池拒绝数__
+* __rollingCountTimeout：超时的__
+* __currentConcurrentExecutionCount：正在执行的数__
+* __rollingMaxConcurrentExecutionCount：__
+* __latencyExecute_mean：计算的是 HystrixCommand.run()的时间__
 * latencyExecute:{"0":1,"25":2,"50":3,"75":3,"90":4,"95":5,"99":5,"99.5":5,"100":5}
-* latencyTotal_mean:
+* __latencyTotal_mean: 计算的是HystrixCommand.execute()到返回到时间__
 * latencyTotal:{"0":1,"25":3,"50":3,"75":3,"90":4,"95":5,"99":5,"99.5":5,"100":5}
 * propertyValue_circuitBreakerRequestVolumeThreshold:
 * propertyValue_circuitBreakerSleepWindowInMilliseconds:5000
@@ -75,4 +74,9 @@ HystrixCommand的字段
 * propertyValue_requestCacheEnabled:
 * propertyValue_requestLogEnabled:
 * reportingHosts:
-* threadPool:线程池名称
+* __threadPool:线程池名称__
+
+
+latencyExecute_*计算的是 HystrixCommand.run()的时间
+
+latencyTotal_*计算的时间是 HystrixCommand.execute() or HystrixCommand.queue() until a response is returned (or is ready to return in case of queue())

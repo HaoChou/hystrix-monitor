@@ -1387,18 +1387,17 @@ public final class Message {
         getContentBytes();
 
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
     boolean hasAppInfo();
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
-    java.lang.String getAppInfo();
+    com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getAppInfo();
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getAppInfoBytes();
+    com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder getAppInfoOrBuilder();
   }
   /**
    * Protobuf type {@code message.NormalMessage}
@@ -1414,7 +1413,6 @@ public final class Message {
     }
     private NormalMessage() {
       content_ = "";
-      appInfo_ = "";
     }
 
     @java.lang.Override
@@ -1455,9 +1453,16 @@ public final class Message {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+              com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = appInfo_.toBuilder();
+              }
+              appInfo_ = input.readMessage(com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(appInfo_);
+                appInfo_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000002;
-              appInfo_ = bs;
               break;
             }
           }
@@ -1528,45 +1533,24 @@ public final class Message {
     }
 
     public static final int APPINFO_FIELD_NUMBER = 2;
-    private volatile java.lang.Object appInfo_;
+    private com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo appInfo_;
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
     public boolean hasAppInfo() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
-    public java.lang.String getAppInfo() {
-      java.lang.Object ref = appInfo_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          appInfo_ = s;
-        }
-        return s;
-      }
+    public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getAppInfo() {
+      return appInfo_ == null ? com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance() : appInfo_;
     }
     /**
-     * <code>required string appInfo = 2;</code>
+     * <code>required .message.AppInfo appInfo = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getAppInfoBytes() {
-      java.lang.Object ref = appInfo_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        appInfo_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder getAppInfoOrBuilder() {
+      return appInfo_ == null ? com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance() : appInfo_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1583,6 +1567,10 @@ public final class Message {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!getAppInfo().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1593,7 +1581,7 @@ public final class Message {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, content_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, appInfo_);
+        output.writeMessage(2, getAppInfo());
       }
       unknownFields.writeTo(output);
     }
@@ -1607,7 +1595,8 @@ public final class Message {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, content_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, appInfo_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getAppInfo());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1779,13 +1768,18 @@ public final class Message {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getAppInfoFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         content_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        appInfo_ = "";
+        if (appInfoBuilder_ == null) {
+          appInfo_ = null;
+        } else {
+          appInfoBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -1818,7 +1812,11 @@ public final class Message {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.appInfo_ = appInfo_;
+        if (appInfoBuilder_ == null) {
+          result.appInfo_ = appInfo_;
+        } else {
+          result.appInfo_ = appInfoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1867,9 +1865,7 @@ public final class Message {
           onChanged();
         }
         if (other.hasAppInfo()) {
-          bitField0_ |= 0x00000002;
-          appInfo_ = other.appInfo_;
-          onChanged();
+          mergeAppInfo(other.getAppInfo());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1881,6 +1877,9 @@ public final class Message {
           return false;
         }
         if (!hasAppInfo()) {
+          return false;
+        }
+        if (!getAppInfo().isInitialized()) {
           return false;
         }
         return true;
@@ -1981,80 +1980,122 @@ public final class Message {
         return this;
       }
 
-      private java.lang.Object appInfo_ = "";
+      private com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo appInfo_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder> appInfoBuilder_;
       /**
-       * <code>required string appInfo = 2;</code>
+       * <code>required .message.AppInfo appInfo = 2;</code>
        */
       public boolean hasAppInfo() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string appInfo = 2;</code>
+       * <code>required .message.AppInfo appInfo = 2;</code>
        */
-      public java.lang.String getAppInfo() {
-        java.lang.Object ref = appInfo_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            appInfo_ = s;
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getAppInfo() {
+        if (appInfoBuilder_ == null) {
+          return appInfo_ == null ? com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance() : appInfo_;
+        } else {
+          return appInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .message.AppInfo appInfo = 2;</code>
+       */
+      public Builder setAppInfo(com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo value) {
+        if (appInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
           }
-          return s;
+          appInfo_ = value;
+          onChanged();
         } else {
-          return (java.lang.String) ref;
+          appInfoBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000002;
+        return this;
       }
       /**
-       * <code>required string appInfo = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getAppInfoBytes() {
-        java.lang.Object ref = appInfo_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          appInfo_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string appInfo = 2;</code>
+       * <code>required .message.AppInfo appInfo = 2;</code>
        */
       public Builder setAppInfo(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        appInfo_ = value;
-        onChanged();
+          com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder builderForValue) {
+        if (appInfoBuilder_ == null) {
+          appInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          appInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required string appInfo = 2;</code>
+       * <code>required .message.AppInfo appInfo = 2;</code>
+       */
+      public Builder mergeAppInfo(com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo value) {
+        if (appInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              appInfo_ != null &&
+              appInfo_ != com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance()) {
+            appInfo_ =
+              com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.newBuilder(appInfo_).mergeFrom(value).buildPartial();
+          } else {
+            appInfo_ = value;
+          }
+          onChanged();
+        } else {
+          appInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .message.AppInfo appInfo = 2;</code>
        */
       public Builder clearAppInfo() {
+        if (appInfoBuilder_ == null) {
+          appInfo_ = null;
+          onChanged();
+        } else {
+          appInfoBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
-        appInfo_ = getDefaultInstance().getAppInfo();
-        onChanged();
         return this;
       }
       /**
-       * <code>required string appInfo = 2;</code>
+       * <code>required .message.AppInfo appInfo = 2;</code>
        */
-      public Builder setAppInfoBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        appInfo_ = value;
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder getAppInfoBuilder() {
+        bitField0_ |= 0x00000002;
         onChanged();
-        return this;
+        return getAppInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .message.AppInfo appInfo = 2;</code>
+       */
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder getAppInfoOrBuilder() {
+        if (appInfoBuilder_ != null) {
+          return appInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return appInfo_ == null ?
+              com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance() : appInfo_;
+        }
+      }
+      /**
+       * <code>required .message.AppInfo appInfo = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder> 
+          getAppInfoFieldBuilder() {
+        if (appInfoBuilder_ == null) {
+          appInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder>(
+                  getAppInfo(),
+                  getParentForChildren(),
+                  isClean());
+          appInfo_ = null;
+        }
+        return appInfoBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2105,6 +2146,1009 @@ public final class Message {
 
   }
 
+  public interface AppInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:message.AppInfo)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    boolean hasAppName();
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    java.lang.String getAppName();
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getAppNameBytes();
+
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    boolean hasIpAddr();
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    java.lang.String getIpAddr();
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpAddrBytes();
+
+    /**
+     * <code>required int32 port = 3;</code>
+     */
+    boolean hasPort();
+    /**
+     * <code>required int32 port = 3;</code>
+     */
+    int getPort();
+
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    boolean hasUri();
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    java.lang.String getUri();
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getUriBytes();
+  }
+  /**
+   * Protobuf type {@code message.AppInfo}
+   */
+  public  static final class AppInfo extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:message.AppInfo)
+      AppInfoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AppInfo.newBuilder() to construct.
+    private AppInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AppInfo() {
+      appName_ = "";
+      ipAddr_ = "";
+      port_ = 0;
+      uri_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AppInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              appName_ = bs;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              ipAddr_ = bs;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              port_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              uri_ = bs;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.internal_static_message_AppInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.internal_static_message_AppInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.class, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int APPNAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object appName_;
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    public boolean hasAppName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    public java.lang.String getAppName() {
+      java.lang.Object ref = appName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          appName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string appName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAppNameBytes() {
+      java.lang.Object ref = appName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        appName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IPADDR_FIELD_NUMBER = 2;
+    private volatile java.lang.Object ipAddr_;
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    public boolean hasIpAddr() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    public java.lang.String getIpAddr() {
+      java.lang.Object ref = ipAddr_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ipAddr_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string ipAddr = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpAddrBytes() {
+      java.lang.Object ref = ipAddr_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ipAddr_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 3;
+    private int port_;
+    /**
+     * <code>required int32 port = 3;</code>
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 port = 3;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    public static final int URI_FIELD_NUMBER = 4;
+    private volatile java.lang.Object uri_;
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    public boolean hasUri() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    public java.lang.String getUri() {
+      java.lang.Object ref = uri_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          uri_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string uri = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUriBytes() {
+      java.lang.Object ref = uri_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uri_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasAppName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIpAddr()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPort()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUri()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, appName_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ipAddr_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, port_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, uri_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, appName_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ipAddr_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, port_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, uri_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo)) {
+        return super.equals(obj);
+      }
+      com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo other = (com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo) obj;
+
+      boolean result = true;
+      result = result && (hasAppName() == other.hasAppName());
+      if (hasAppName()) {
+        result = result && getAppName()
+            .equals(other.getAppName());
+      }
+      result = result && (hasIpAddr() == other.hasIpAddr());
+      if (hasIpAddr()) {
+        result = result && getIpAddr()
+            .equals(other.getIpAddr());
+      }
+      result = result && (hasPort() == other.hasPort());
+      if (hasPort()) {
+        result = result && (getPort()
+            == other.getPort());
+      }
+      result = result && (hasUri() == other.hasUri());
+      if (hasUri()) {
+        result = result && getUri()
+            .equals(other.getUri());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasAppName()) {
+        hash = (37 * hash) + APPNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getAppName().hashCode();
+      }
+      if (hasIpAddr()) {
+        hash = (37 * hash) + IPADDR_FIELD_NUMBER;
+        hash = (53 * hash) + getIpAddr().hashCode();
+      }
+      if (hasPort()) {
+        hash = (37 * hash) + PORT_FIELD_NUMBER;
+        hash = (53 * hash) + getPort();
+      }
+      if (hasUri()) {
+        hash = (37 * hash) + URI_FIELD_NUMBER;
+        hash = (53 * hash) + getUri().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code message.AppInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:message.AppInfo)
+        com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.internal_static_message_AppInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.internal_static_message_AppInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.class, com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.Builder.class);
+      }
+
+      // Construct using com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        appName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ipAddr_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        port_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        uri_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.internal_static_message_AppInfo_descriptor;
+      }
+
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getDefaultInstanceForType() {
+        return com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance();
+      }
+
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo build() {
+        com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo buildPartial() {
+        com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo result = new com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.appName_ = appName_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.ipAddr_ = ipAddr_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.port_ = port_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.uri_ = uri_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo) {
+          return mergeFrom((com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo other) {
+        if (other == com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo.getDefaultInstance()) return this;
+        if (other.hasAppName()) {
+          bitField0_ |= 0x00000001;
+          appName_ = other.appName_;
+          onChanged();
+        }
+        if (other.hasIpAddr()) {
+          bitField0_ |= 0x00000002;
+          ipAddr_ = other.ipAddr_;
+          onChanged();
+        }
+        if (other.hasPort()) {
+          setPort(other.getPort());
+        }
+        if (other.hasUri()) {
+          bitField0_ |= 0x00000008;
+          uri_ = other.uri_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasAppName()) {
+          return false;
+        }
+        if (!hasIpAddr()) {
+          return false;
+        }
+        if (!hasPort()) {
+          return false;
+        }
+        if (!hasUri()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object appName_ = "";
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public boolean hasAppName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public java.lang.String getAppName() {
+        java.lang.Object ref = appName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            appName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getAppNameBytes() {
+        java.lang.Object ref = appName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          appName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public Builder setAppName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        appName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public Builder clearAppName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        appName_ = getDefaultInstance().getAppName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string appName = 1;</code>
+       */
+      public Builder setAppNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        appName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object ipAddr_ = "";
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public boolean hasIpAddr() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public java.lang.String getIpAddr() {
+        java.lang.Object ref = ipAddr_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            ipAddr_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIpAddrBytes() {
+        java.lang.Object ref = ipAddr_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ipAddr_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public Builder setIpAddr(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ipAddr_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public Builder clearIpAddr() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        ipAddr_ = getDefaultInstance().getIpAddr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ipAddr = 2;</code>
+       */
+      public Builder setIpAddrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ipAddr_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>required int32 port = 3;</code>
+       */
+      public boolean hasPort() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 port = 3;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>required int32 port = 3;</code>
+       */
+      public Builder setPort(int value) {
+        bitField0_ |= 0x00000004;
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 port = 3;</code>
+       */
+      public Builder clearPort() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object uri_ = "";
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public boolean hasUri() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public java.lang.String getUri() {
+        java.lang.Object ref = uri_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            uri_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUriBytes() {
+        java.lang.Object ref = uri_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          uri_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public Builder setUri(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        uri_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public Builder clearUri() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        uri_ = getDefaultInstance().getUri();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uri = 4;</code>
+       */
+      public Builder setUriBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        uri_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:message.AppInfo)
+    }
+
+    // @@protoc_insertion_point(class_scope:message.AppInfo)
+    private static final com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo();
+    }
+
+    public static com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<AppInfo>
+        PARSER = new com.google.protobuf.AbstractParser<AppInfo>() {
+      public AppInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AppInfo(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AppInfo> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AppInfo> getParserForType() {
+      return PARSER;
+    }
+
+    public com.netflix.hystrix.dashboard.data.netty.protobuf.Message.AppInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_message_HeartBeat_descriptor;
   private static final 
@@ -2120,6 +3164,11 @@ public final class Message {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_message_NormalMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_message_AppInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_message_AppInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2132,10 +3181,13 @@ public final class Message {
       "\n\rMessage.proto\022\007message\"\036\n\tHeartBeat\022\021\n" +
       "\trequestId\030\001 \002(\005\">\n\010Register\022!\n\007regType\030" +
       "\001 \002(\0162\020.message.RegType\022\017\n\007appInfo\030\002 \002(\t" +
-      "\"1\n\rNormalMessage\022\017\n\007content\030\001 \002(\t\022\017\n\007ap" +
-      "pInfo\030\002 \002(\t*-\n\007RegType\022\020\n\014LOCAL_CLIENT\020\001" +
-      "\022\020\n\014PROXY_CLIENT\020\002B<\n1com.netflix.hystri" +
-      "x.dashboard.data.netty.protobufB\007Message"
+      "\"C\n\rNormalMessage\022\017\n\007content\030\001 \002(\t\022!\n\007ap" +
+      "pInfo\030\002 \002(\0132\020.message.AppInfo\"E\n\007AppInfo" +
+      "\022\017\n\007appName\030\001 \002(\t\022\016\n\006ipAddr\030\002 \002(\t\022\014\n\004por" +
+      "t\030\003 \002(\005\022\013\n\003uri\030\004 \002(\t*-\n\007RegType\022\020\n\014LOCAL" +
+      "_CLIENT\020\001\022\020\n\014PROXY_CLIENT\020\002B<\n1com.netfl" +
+      "ix.hystrix.dashboard.data.netty.protobuf" +
+      "B\007Message"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2167,6 +3219,12 @@ public final class Message {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_NormalMessage_descriptor,
         new java.lang.String[] { "Content", "AppInfo", });
+    internal_static_message_AppInfo_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_message_AppInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_message_AppInfo_descriptor,
+        new java.lang.String[] { "AppName", "IpAddr", "Port", "Uri", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

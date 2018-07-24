@@ -65,7 +65,7 @@ public class StreamClientRunnable  implements Runnable{
                             if (b == 10 /** flush buffer on line feed */) {
                                 Message.NormalMessage normalMessage = Message.NormalMessage.newBuilder()
                                         .setContent(sb.toString())
-                                        .setAppInfo(eurekaAppInfo.toString())
+                                        .setAppInfo(getMessageAppInfp())
                                         .build();
                                 channel.writeAndFlush(normalMessage);
                                 sb = new StringBuilder();
@@ -118,5 +118,16 @@ public class StreamClientRunnable  implements Runnable{
         }
 
         logger.info("StreamClientRunnable线程退出,url:" +eurekaAppInfo.toString());
+    }
+
+
+    private Message.AppInfo getMessageAppInfp(){
+      return
+              Message.AppInfo.newBuilder()
+              .setAppName(eurekaAppInfo.getAppName())
+              .setIpAddr(eurekaAppInfo.getIpAddr())
+              .setPort(eurekaAppInfo.getPort())
+              .setUri(eurekaAppInfo.getUri())
+              .build();
     }
 }

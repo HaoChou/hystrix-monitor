@@ -4,5 +4,11 @@ server:
 #  thymeleaf:
 #    prefix: classpath:/static/
 
-
-
+my-monitor:
+  eurekaApps-url: http://172.16.36.88:1111/eureka/apps
+  #可以用逗号隔开
+  ignore-apps: CONFIG-SERVER
+influxdb:
+  url: http://localhost:8086
+  username: admin
+  password: admin

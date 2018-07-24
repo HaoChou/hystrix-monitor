@@ -18,10 +18,15 @@ message Register {
 
 message NormalMessage{
     required string content=1;
-    required string appInfo=2;
+    required AppInfo appInfo=2;
 }
 
-
+message AppInfo{
+    required string appName=1;
+    required string ipAddr=2;
+    required int32 port=3;
+    required string uri=4;
+}
 
 //注册类型
 enum RegType {
