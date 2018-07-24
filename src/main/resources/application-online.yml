@@ -9,6 +9,7 @@ my-monitor:
   #可以用逗号隔开
   ignore-apps: CONFIG-SERVER
 influxdb:
-  url: http://localhost:8086
+  url: http://172.18.64.95:8086
   username: admin
   password: admin
+  dbname: hystrixdb

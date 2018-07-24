@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Demo {
     public static void main(String[] args) {
         InfluxDB influxDB = InfluxDBFactory.connect("http://localhost:8086", "admin", "admin");
-        String dbName = "javaTest";
+        String dbName = "zhoulocalTest";
         influxDB.createDatabase(dbName);
         influxDB.createDatabase(dbName);
         String rpName = "aRetentionPolicy";

@@ -14,6 +14,7 @@ public class InfluxdbConfig {
     private String url;
     private String username;
     private String password;
+    private String dbname;
 
     public String getUrl() {
         return url;
@@ -37,5 +38,13 @@ public class InfluxdbConfig {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDbname() {
+        return dbname;
+    }
+
+    public void setDbname(String dbname) {
+        this.dbname = dbname;
     }
 }

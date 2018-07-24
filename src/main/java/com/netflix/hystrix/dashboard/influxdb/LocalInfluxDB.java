@@ -27,7 +27,7 @@ public class LocalInfluxDB {
     InfluxdbConfig config;
 
     private static InfluxDB influxDB;
-    private static String dbName = "zhoulocalTest";
+    private static String dbName = "hystrixDefault";
     private static String rpName = "aRetentionPolicy";
 
 
@@ -38,10 +38,11 @@ public class LocalInfluxDB {
         //// Flush every 2000 Points, at least every 100ms
 //        influxDB.enableBatch(2000, 100, TimeUnit.MILLISECONDS);
 
+        dbName=config.getDbname();
         influxDB.createDatabase(dbName);
         //要设置数据库 否则会报错：Expecting a non-empty string for database
         influxDB.setDatabase(dbName);
-        influxDB.createRetentionPolicy(rpName, dbName, "30d", "1h", 1, true);
+        influxDB.createRetentionPolicy(rpName, dbName, "7d", "1h", 1, true);
         influxDB.setRetentionPolicy(rpName);
         influxDB.enableBatch(BatchOptions.DEFAULTS);
 

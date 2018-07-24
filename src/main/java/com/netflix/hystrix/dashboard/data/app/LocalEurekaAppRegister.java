@@ -53,7 +53,7 @@ public class LocalEurekaAppRegister {
         {
             return;
         }
-        logger.info("CheckStatusRunnable任务 检查是否可以注册:"+eurekaAppInfo.toString()+"已经提交");
+        logger.debug("CheckStatusRunnable任务 检查是否可以注册:"+eurekaAppInfo.toString()+"已经提交");
         LocalThreadPoolManger.getInstance().getAppDiscoverThreadPool().execute(new CheckStatusRunnable(eurekaAppInfo));
     }
 
@@ -61,7 +61,7 @@ public class LocalEurekaAppRegister {
         Iterator<EurekaAppInfo> iterator = ONLINE_APPS.iterator();
         while (iterator.hasNext()){
             final EurekaAppInfo appInfo= iterator.next();
-            logger.info("CheckStatusRunnable任务 检查在线状态:"+appInfo.toString()+"已经提交");
+            logger.debug("CheckStatusRunnable任务 检查在线状态:"+appInfo.toString()+"已经提交");
             LocalThreadPoolManger.getInstance().getAppDiscoverThreadPool().execute(new CheckStatusRunnable(appInfo));
         }
     }
@@ -93,7 +93,7 @@ public class LocalEurekaAppRegister {
                     AppObservable.getInstance().removeAppAndNotify(appInfo);
                 }
             }
-            logger.info("CheckStatusRunnable任务 "+appInfo.toString()+"已结束 耗时："  +( System.currentTimeMillis()-star));
+            logger.debug("CheckStatusRunnable任务 "+appInfo.toString()+"已结束 耗时："  +( System.currentTimeMillis()-star));
         }
     }
 
