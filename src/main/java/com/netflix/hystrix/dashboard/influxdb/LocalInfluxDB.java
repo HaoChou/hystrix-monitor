@@ -8,6 +8,7 @@ import org.influxdb.InfluxDBFactory;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Created on 2018/7/23
  */
 @Component
+@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
 public class LocalInfluxDB {
 
     private static LocalInfluxDB INSTANCE;

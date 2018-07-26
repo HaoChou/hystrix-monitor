@@ -4,7 +4,18 @@ server:
 #  thymeleaf:
 #    prefix: classpath:/static/
 
+spring:
+  application:
+    name: IMP-MONITOR
+
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://172.16.36.88:1111/eureka/
 my-monitor:
+  enable: false
   eurekaApps-url: http://172.16.36.88:1111/eureka/apps
   #可以用逗号隔开
   ignore-apps: CONFIG-SERVER
