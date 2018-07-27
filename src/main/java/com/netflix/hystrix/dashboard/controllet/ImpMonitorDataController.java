@@ -1,11 +1,19 @@
 package com.netflix.hystrix.dashboard.controllet;
 
 import com.alibaba.fastjson.JSON;
-import org.springframework.stereotype.Controller;
+import com.netflix.hystrix.dashboard.influxdb.LocalInfluxDB;
+import org.apache.commons.lang.StringUtils;
+import org.influxdb.dto.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhou
@@ -14,18 +22,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ImpMonitorDataController {
 
-    @RequestMapping("/input/point.html")
-    public String inputPoint( @RequestBody RemotePointer point){
+    private static final Logger LOG = LoggerFactory.getLogger(ImpMonitorDataController.class);
 
-        System.out.println(JSON.toJSON(point));
-        return "1";
+    @Autowired
+    LocalInfluxDB localInfluxDB;
+
+    @RequestMapping("/input/point.html")
+    public String inputPoint( @RequestBody List<RemotePointer> points){
+        try {
+            if (CollectionUtils.isEmpty(points)) {
+                return "empty points";
+            }
+
+            for (RemotePointer remotePointer : points) {
+                Point point = getRealPoint(remotePointer);
+                if (null != point) {
+                    LocalInfluxDB.getInfluxDB().write(point);
+                }
+            }
+            return "success";
+        }
+        catch (Exception e){
+
+            return "Exception happens";
+        }
     }
 
+    private Point getRealPoint(RemotePointer remotePointer){
+        if(StringUtils.isEmpty(remotePointer.getMeasurement())||CollectionUtils.isEmpty(remotePointer.getTagMaps())){
+            LOG.warn("错误的remotePointer"+ JSON.toJSONString(remotePointer));
+            return null;
+        }
+        Point.Builder builder = Point.measurement(remotePointer.getMeasurement()).tag(remotePointer.getTagMaps());
 
-    @RequestMapping("/input/point2.html")
-    public String inputPoints(  String s){
-
-        System.out.println(JSON.toJSON(s));
-        return "1";
+        for(Map.Entry<String,Number> entry: remotePointer.getFieldMaps().entrySet()) {
+            builder.addField(entry.getKey(),entry.getValue());
+        }
+        return builder.build();
     }
 }

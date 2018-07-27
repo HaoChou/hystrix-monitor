@@ -12,6 +12,7 @@ public class RemotePointer {
     private  String measurement;
     private  Map<String,String> tagMaps;
     private  Map<String,Number> fieldMaps;
+    private  long time;
 
     public RemotePointer() {
         tagMaps=new HashMap<>();
@@ -33,6 +34,13 @@ public class RemotePointer {
         return this;
     }
 
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     public String getMeasurement() {
         return measurement;
