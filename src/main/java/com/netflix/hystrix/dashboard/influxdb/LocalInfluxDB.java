@@ -45,7 +45,7 @@ public class LocalInfluxDB {
 //        influxDB.enableBatch(2000, 100, TimeUnit.MILLISECONDS);
 
         dbName=config.getDbname();
-        influxDB.createDatabase(dbName);
+//        influxDB.createDatabase(dbName);
         //要设置数据库 否则会报错：Expecting a non-empty string for database
         influxDB.setDatabase(dbName);
         influxDB.createRetentionPolicy(rpName, dbName, "7d", "1h", 1, true);
