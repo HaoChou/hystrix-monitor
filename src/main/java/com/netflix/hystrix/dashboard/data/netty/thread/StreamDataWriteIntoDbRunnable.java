@@ -74,7 +74,7 @@ public class StreamDataWriteIntoDbRunnable implements Runnable {
                 Number latencyTotal_mean = (Number)map.get("latencyTotal_mean");
 
                     //线程安全 走的是BlockQueue
-                    influxDB.write(Point.measurement("hystrix.command")
+                    influxDB.write(Point.measurement("hystrix_command")
                             //时间
                             .time(currentTime, TimeUnit.MILLISECONDS)
                             //app信息包括机器信息+端口+ip
@@ -128,7 +128,7 @@ public class StreamDataWriteIntoDbRunnable implements Runnable {
                 Number rollingCountCommandRejections = (Number) map.get("rollingCountCommandRejections");
 
 
-                    influxDB.write(Point.measurement("hystrix.threadPool")
+                    influxDB.write(Point.measurement("hystrix_threadPool")
                             //时间
                             .time(currentTime, TimeUnit.MILLISECONDS)
                             //app信息包括机器信息+端口+ip

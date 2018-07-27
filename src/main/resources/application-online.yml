@@ -27,7 +27,7 @@ influxdb:
   url: http://172.18.64.95:8086
   username: admin
   password: admin
-  dbname: hystrixdb
+  dbname: influxdb_online
 
 zookeeper:
   address:
