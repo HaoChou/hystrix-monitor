@@ -9,9 +9,12 @@ import java.util.Map;
  */
 public class RemotePointer {
 
-    private final String measurement;
-    private final Map<String,String> tagMaps;
-    private final Map<String,Number> fieldMaps;
+    private  String measurement;
+    private  Map<String,String> tagMaps;
+    private  Map<String,Number> fieldMaps;
+
+    public RemotePointer() {
+    }
 
     public RemotePointer(String measurement){
         this.measurement=measurement;
