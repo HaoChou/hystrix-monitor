@@ -24,8 +24,9 @@ public class ImpMonitorDataController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImpMonitorDataController.class);
 
-    @Autowired
-    LocalInfluxDB localInfluxDB;
+//
+//    @Autowired
+//    LocalInfluxDB localInfluxDB;
 
     @RequestMapping("/input/point.html")
     public String inputPoint( @RequestBody List<RemotePointer> points){
