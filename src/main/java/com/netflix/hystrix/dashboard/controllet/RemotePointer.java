@@ -14,12 +14,13 @@ public class RemotePointer {
     private  Map<String,Number> fieldMaps;
 
     public RemotePointer() {
-    }
-
-    public RemotePointer(String measurement){
-        this.measurement=measurement;
         tagMaps=new HashMap<>();
         fieldMaps=new HashMap<>();
+    }
+
+    public RemotePointer measurement(String measurement){
+        this.measurement=measurement;
+        return this;
     }
 
     public RemotePointer field(String fieldName,Number number){
