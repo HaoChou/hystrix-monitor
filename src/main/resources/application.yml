@@ -16,7 +16,7 @@ eureka:
       defaultZone: http://172.16.36.88:1111/eureka/
 
 env:
-  online: false
+  online: true
 
 myMonitor:
   eurekaAppsUrl: http://172.16.36.88:1111/eureka/apps

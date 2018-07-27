@@ -7,6 +7,8 @@ import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 @ConditionalOnProperty(name = "env.online",havingValue = "true")
 public class LocalInfluxDB {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocalInfluxDB.class);
 
     private static LocalInfluxDB INSTANCE;
     @Autowired
@@ -47,6 +51,7 @@ public class LocalInfluxDB {
         influxDB.createRetentionPolicy(rpName, dbName, "7d", "1h", 1, true);
         influxDB.setRetentionPolicy(rpName);
         influxDB.enableBatch(BatchOptions.DEFAULTS);
+        LOGGER.info("influxDB 初始化完成："+"dbName:"+dbName+"url:"+config.getUrl());
 
     }
 
