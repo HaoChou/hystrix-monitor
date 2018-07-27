@@ -33,6 +33,7 @@ public class ImpMonitorDataController {
             if (CollectionUtils.isEmpty(points)) {
                 return "empty points";
             }
+            LOG.info("收到："+JSON.toJSONString(points));
 
             for (RemotePointer remotePointer : points) {
                 Point point = getRealPoint(remotePointer);
