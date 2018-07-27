@@ -14,8 +14,11 @@ eureka:
     serviceUrl:
       defaultZone: http://common1.eureka.s.ttacp8:1111/eureka/,http://common2.eureka.s.ttacp8:1111/eureka/,http://common3.eureka.s.ttacp8:1111/eureka/,http://common4.eureka.s.ttacp8:1111/eureka/
 
+
+env:
+  online: true
+
 my-monitor:
-  enable: true
   eurekaApps-url: http://172.18.80.166:1111/eureka/apps
   #可以用逗号隔开
   ignore-apps: CONFIG-SERVER,IMP-MONITOR

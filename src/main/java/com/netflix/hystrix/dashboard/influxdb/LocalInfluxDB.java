@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Created on 2018/7/23
  */
 @Component
-@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
+@ConditionalOnProperty(name = "env.online",havingValue = "true")
 public class LocalInfluxDB {
 
     private static LocalInfluxDB INSTANCE;

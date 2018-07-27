@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  * @author zhou
  * Created on 2018/7/19
  */
-@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
+@ConditionalOnProperty(name = "env.online",havingValue = "true")
 @Component
 public class AppDiscoverSchedule {
 

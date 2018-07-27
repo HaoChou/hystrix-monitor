@@ -20,7 +20,7 @@ import java.util.*;
  * @author zhou
  * Created on 2018/7/17
  */
-@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
+@ConditionalOnProperty(name = "env.online",havingValue = "true")
 @Component
 public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
 

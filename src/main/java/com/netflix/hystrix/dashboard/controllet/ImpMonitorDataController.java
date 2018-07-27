@@ -21,7 +21,7 @@ import java.util.Map;
  * Created on 2018/7/26
  */
 @RestController
-@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
+@ConditionalOnProperty(name = "env.online",havingValue = "true")
 public class ImpMonitorDataController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImpMonitorDataController.class);
