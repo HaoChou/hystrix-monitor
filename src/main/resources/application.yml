@@ -15,6 +15,9 @@ eureka:
     serviceUrl:
       defaultZone: http://172.16.36.88:1111/eureka/
 
+env:
+  online: false
+
 myMonitor:
   eurekaAppsUrl: http://172.16.36.88:1111/eureka/apps
   #可以用逗号隔开
