@@ -26,7 +26,7 @@ public class AppDiscoverSchedule {
 
     @Scheduled(fixedRate = 1000*30, initialDelay = 1000*60 )
     private void discover(){
-        LOGGER.info("AppDiscoverSchedule start!");
+        LOGGER.debug("AppDiscoverSchedule start!");
         jobDiscoverHandler.handler();
     }
     @PostConstruct
