@@ -38,6 +38,7 @@ public class StreamClientRunnable  implements Runnable{
 
     @Override
     public void run() {
+        logger.info("StreamClientRunnable start:"+eurekaAppInfo.getHystrixStreamUrl());
         String hystrixStreamUrl = eurekaAppInfo.getHystrixStreamUrl();
         InputStream is = null;
         HttpURLConnection connection = null;
