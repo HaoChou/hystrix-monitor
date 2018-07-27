@@ -29,8 +29,10 @@ public class LocalThreadPoolManger {
     private LocalThreadPoolManger()
     {
         appDiscoverThreadPool = new ThreadPoolExecutor(0,10,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
-        localNettyThreadPool = new ThreadPoolExecutor(10,200,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
-        bizThreadPool = new ThreadPoolExecutor(10,200,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+//        localNettyThreadPool = new ThreadPoolExecutor(10,200,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+        localNettyThreadPool = Executors.newCachedThreadPool();
+//        bizThreadPool = new ThreadPoolExecutor(10,200,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+        bizThreadPool = Executors.newCachedThreadPool();
     }
 
     public ExecutorService getAppDiscoverThreadPool() {
