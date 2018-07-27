@@ -14,11 +14,12 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://172.16.36.88:1111/eureka/
-my-monitor:
-  enable: false
-  eurekaApps-url: http://172.16.36.88:1111/eureka/apps
+
+myMonitor:
+  eurekaAppsUrl: http://172.16.36.88:1111/eureka/apps
   #可以用逗号隔开
-  ignore-apps: CONFIG-SERVER
+  ignoreApps: CONFIG-SERVER,IMP-MONITOR
+
 influxdb:
   url: http://localhost:8086
   username: admin

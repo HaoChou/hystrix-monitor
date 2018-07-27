@@ -10,7 +10,7 @@ import java.util.Set;
  * Created on 2018/7/17
  */
 @Component
-@ConfigurationProperties(prefix = "my-monitor")
+@ConfigurationProperties(prefix = "myMonitor")
 public class MyMonitorConfig {
     private String eurekaAppsUrl;
     private Set<String> ignoreApps;

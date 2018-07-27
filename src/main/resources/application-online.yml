@@ -18,10 +18,11 @@ eureka:
 env:
   online: true
 
-my-monitor:
-  eurekaApps-url: http://172.18.80.166:1111/eureka/apps
+myMonitor:
+  eurekaAppsUrl: http://172.18.80.166:1111/eureka/apps
   #可以用逗号隔开
-  ignore-apps: CONFIG-SERVER,IMP-MONITOR
+  ignoreApps: CONFIG-SERVER,IMP-MONITOR
+
 influxdb:
   url: http://172.18.64.95:8086
   username: admin
