@@ -46,7 +46,7 @@ public class ImpMonitorDataController {
         }
         catch (Exception e){
 
-            return "Exception happens";
+            return "-1";
         }
     }
 
