@@ -16,8 +16,8 @@ import static com.netflix.hystrix.dashboard.data.netty.NettyStarter.HYSTRIX_STRE
 
 @SpringBootApplication(scanBasePackages = { "com" })
 @EnableScheduling
-@EnableDiscoveryClient
-@EnableFeignClients
+//@EnableDiscoveryClient
+//@EnableFeignClients
 public class HystrixDashboardApplication{
 
     public static void main(String[] args) {
