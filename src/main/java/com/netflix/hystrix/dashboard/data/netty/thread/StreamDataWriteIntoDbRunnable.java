@@ -107,7 +107,7 @@ public class StreamDataWriteIntoDbRunnable implements Runnable {
                             .addField("latencyTotal_mean", latencyTotal_mean)
                             .build());
 //                    System.out.println("写入成功");
-                logger.info("command 写入成功");
+//                logger.info("command 写入成功");
 
             }else if(type.equals("HystrixThreadPool"))
             {
@@ -149,7 +149,7 @@ public class StreamDataWriteIntoDbRunnable implements Runnable {
                             .addField("rollingMaxActiveThreads", rollingMaxActiveThreads)
                             .addField("rollingCountCommandRejections", rollingCountCommandRejections)
                             .build());
-                logger.info("threadpool 写入成功");
+//                logger.info("threadpool 写入成功");
             }
         }
         catch (Exception e) {
