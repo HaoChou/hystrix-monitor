@@ -7,6 +7,7 @@ import org.influxdb.dto.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,19 +21,20 @@ import java.util.Map;
  * Created on 2018/7/26
  */
 @RestController
+@ConditionalOnProperty(name = "my-monitor.enable",havingValue = "true")
 public class ImpMonitorDataController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImpMonitorDataController.class);
 
-//
-//    @Autowired
-//    LocalInfluxDB localInfluxDB;
+
+    @Autowired
+    LocalInfluxDB localInfluxDB;
 
     @RequestMapping("/input/point.html")
     public String inputPoint( @RequestBody List<RemotePointer> points){
         try {
             if (CollectionUtils.isEmpty(points)) {
-                return "empty points";
+                return "-1";
             }
             LOG.info("收到："+JSON.toJSONString(points));
 
@@ -42,7 +44,7 @@ public class ImpMonitorDataController {
                     LocalInfluxDB.getInfluxDB().write(point);
                 }
             }
-            return "success";
+            return "1";
         }
         catch (Exception e){
 
