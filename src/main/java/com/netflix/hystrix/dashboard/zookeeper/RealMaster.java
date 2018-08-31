@@ -93,7 +93,6 @@ public class RealMaster implements IsMaster{
                 }
             });
             leaderLatch.start();
-            logger.info("isMaster:"+isMaster);
 
         } catch (Exception e) {
             logger.error("选举异常",e);
