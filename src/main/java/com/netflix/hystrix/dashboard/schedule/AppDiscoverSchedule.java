@@ -27,7 +27,7 @@ public class AppDiscoverSchedule {
     @Autowired
     private IsMaster isMaster;
 
-    @Scheduled(fixedRate = 1000*30, initialDelay = 1000*10 )
+    @Scheduled(fixedRate = 1000*30, initialDelay = 1000*30 )
     private void discover(){
         if(isMaster.isMaster()) {
             LOGGER.debug("AppDiscoverSchedule start!");
