@@ -5,4 +5,7 @@ package com.netflix.hystrix.dashboard.zookeeper;
  * Created on 2018/7/25
  */
 public interface IsMaster {
+
+    boolean isMaster();
+    void initAndCheck();
 }

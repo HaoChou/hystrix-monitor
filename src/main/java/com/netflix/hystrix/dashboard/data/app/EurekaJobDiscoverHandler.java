@@ -36,7 +36,7 @@ public class EurekaJobDiscoverHandler implements JobDiscoverHandler {
     @PostConstruct
     void init() {
         this.eurekaAppsUrl = myMonitorConfig.getEurekaAppsUrl();
-        handler();
+//        handler();
     }
 
     @Override

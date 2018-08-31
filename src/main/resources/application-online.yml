@@ -21,8 +21,9 @@ env:
 myMonitor:
   eurekaAppsUrl: http://172.18.80.166:1111/eureka/apps
   #可以用逗号隔开
-  ignoreApps: CONFIG-SERVER,IMP-MONITOR
+  ignoreApps: CONFIG-SERVER,IMP-MONITORM
 
+  zkUrl:framework1.zookeeper.s.ttacp8:2183,framework2.zookeeper.s.ttacp8:2183,framework3.zookeeper.s.ttacp8:2183,framework4.zookeeper.s.ttacp8:2183,framework5.zookeeper.s.ttacp8:2183
 influxdb:
   url: http://172.18.64.95:8086
   username: admin

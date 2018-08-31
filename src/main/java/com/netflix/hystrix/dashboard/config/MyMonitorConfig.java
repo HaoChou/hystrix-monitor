@@ -13,6 +13,7 @@ import java.util.Set;
 @ConfigurationProperties(prefix = "myMonitor")
 public class MyMonitorConfig {
     private String eurekaAppsUrl;
+    private String zkUrl;
     private Set<String> ignoreApps;
 
 
@@ -33,4 +34,11 @@ public class MyMonitorConfig {
     }
 
 
+    public String getZkUrl() {
+        return zkUrl;
+    }
+
+    public void setZkUrl(String zkUrl) {
+        this.zkUrl = zkUrl;
+    }
 }
