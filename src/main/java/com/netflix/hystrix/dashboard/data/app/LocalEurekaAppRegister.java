@@ -3,17 +3,14 @@ package com.netflix.hystrix.dashboard.data.app;
 import com.netflix.hystrix.dashboard.data.app.observer.AppObservable;
 import com.netflix.hystrix.dashboard.threadpool.LocalThreadPoolManger;
 import io.netty.util.internal.ConcurrentSet;
-import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * @author zhou
