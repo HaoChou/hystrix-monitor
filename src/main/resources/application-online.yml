@@ -12,21 +12,21 @@ eureka:
     instanceId: ${spring.cloud.client.ipAddress}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://common1.eureka.s.ttacp8:1111/eureka/,http://common2.eureka.s.ttacp8:1111/eureka/,http://common3.eureka.s.ttacp8:1111/eureka/,http://common4.eureka.s.ttacp8:1111/eureka/
+      defaultZone: xxxx
 
 
 env:
   online: true
 
 myMonitor:
-  eurekaAppsUrl: http://172.18.80.166:1111/eureka/apps
+  eurekaAppsUrl: xxxx
   #可以用逗号隔开
   ignoreApps: CONFIG-SERVER,IMP-MONITORM
 
-  zkUrl: framework1.zookeeper.s.ttacp8:2183,framework2.zookeeper.s.ttacp8:2183,framework3.zookeeper.s.ttacp8:2183,framework4.zookeeper.s.ttacp8:2183,framework5.zookeeper.s.ttacp8:2183
+  zkUrl: xxxx
 
 influxdb:
-  url: http://172.18.64.95:8086
+  url: http://xxxx:8086
   username: admin
   password: admin
   dbname: influxdb_online
