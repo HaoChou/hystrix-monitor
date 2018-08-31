@@ -3,6 +3,7 @@ package com.netflix.hystrix.dashboard.data.app;
 import com.netflix.hystrix.dashboard.data.app.observer.AppObservable;
 import com.netflix.hystrix.dashboard.threadpool.LocalThreadPoolManger;
 import io.netty.util.internal.ConcurrentSet;
+import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +29,9 @@ public class LocalEurekaAppRegister {
     }
 
 
-    private static Set<EurekaAppInfo> ALL_APPS = new HashSet();
+//    private static Set<EurekaAppInfo> ALL_APPS = new HashSet();
     private static Set<EurekaAppInfo> ONLINE_APPS = new ConcurrentSet<>();
-    private static Set<EurekaAppInfo> OFFLINE_APPS = new HashSet();
+//    private static Set<EurekaAppInfo> OFFLINE_APPS = new HashSet();
 
     public static LocalEurekaAppRegister getInstance(){
         return INSTANCE;
@@ -122,6 +123,16 @@ public class LocalEurekaAppRegister {
             if (connection != null) {
                 connection.disconnect();
             }
+        }
+    }
+
+    /**
+     * 关闭所有流client
+     */
+    public static void closeAllStreamClient(){
+
+        for(EurekaAppInfo appInfo: ONLINE_APPS){
+            AppObservable.getInstance().removeAppAndNotify(appInfo);
         }
     }
 

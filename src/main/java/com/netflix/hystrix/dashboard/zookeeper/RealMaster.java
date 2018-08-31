@@ -2,6 +2,7 @@ package com.netflix.hystrix.dashboard.zookeeper;
 
 import com.netflix.hystrix.dashboard.config.MyMonitorConfig;
 import com.netflix.hystrix.dashboard.data.app.JobDiscoverHandler;
+import com.netflix.hystrix.dashboard.data.app.LocalEurekaAppRegister;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -72,8 +73,11 @@ public class RealMaster implements IsMaster{
                 public void isLeader() {
                     logger.info(leaderLatch.getId() +  ":I am leader. I am doing jobs!");
                     isMaster=true;
-
-                    jobDiscoverHandler.handler();
+                    try {
+                        jobDiscoverHandler.handler();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                 }
 
@@ -81,6 +85,11 @@ public class RealMaster implements IsMaster{
                 public void notLeader() {
                     logger.info(leaderLatch.getId() +  ":I am not leader. I will do nothing!");
                     isMaster=false;
+                    try {
+                        LocalEurekaAppRegister.closeAllStreamClient();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
             leaderLatch.start();
