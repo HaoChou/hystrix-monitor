@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class RealMaster implements IsMaster{
     public static boolean isMaster = false;
 
     private static final String PATH = "/Hystrixonitor/leader";
+
+    private CuratorFramework client ;
+    private LeaderLatch leaderLatch ;
 
     @Autowired
     private MyMonitorConfig myMonitorConfig;
@@ -57,13 +61,11 @@ public class RealMaster implements IsMaster{
     @PostConstruct
     @Override
     public void initAndCheck() {
-        List<LeaderLatch> latchList = new ArrayList<>();
-        List<CuratorFramework> clients = new ArrayList<>();
-        try {
-            CuratorFramework client = getClient();
-            clients.add(client);
 
-            final LeaderLatch leaderLatch = new LeaderLatch(client, PATH, "client#" + System.currentTimeMillis());
+        try {
+            client = getClient();
+
+            leaderLatch = new LeaderLatch(client, PATH, "client#" + System.currentTimeMillis());
             leaderLatch.addListener(new LeaderLatchListener() {
                 @Override
                 public void isLeader() {
@@ -78,22 +80,21 @@ public class RealMaster implements IsMaster{
                     isMaster=false;
                 }
             });
-            latchList.add(leaderLatch);
             leaderLatch.start();
+            logger.info("isMaster:"+isMaster);
 
-            System.out.println(JSON.toJSON(leaderLatch.getParticipants()));
-
-            Thread.sleep(Integer.MAX_VALUE);
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            for(CuratorFramework client : clients){
-                CloseableUtils.closeQuietly(client);
-            }
+            logger.error("选举异常",e);
+        }
+    }
 
-            for(LeaderLatch leaderLatch : latchList){
-                CloseableUtils.closeQuietly(leaderLatch);
-            }
+    @PreDestroy
+    private void distory(){
+        if (null!=client){
+            CloseableUtils.closeQuietly(client);
+        }
+        if (null!=leaderLatch){
+            CloseableUtils.closeQuietly(leaderLatch);
         }
     }
 }
