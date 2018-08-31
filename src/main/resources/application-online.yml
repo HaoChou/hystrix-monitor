@@ -30,6 +30,3 @@ influxdb:
   username: admin
   password: admin
   dbname: influxdb_online
-
-zookeeper:
-  address:
