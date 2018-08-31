@@ -2,7 +2,6 @@ package com.netflix.hystrix.dashboard.zookeeper;
 
 import com.alibaba.fastjson.JSON;
 import com.netflix.hystrix.dashboard.config.MyMonitorConfig;
-import com.netflix.hystrix.dashboard.data.MockWorker;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
